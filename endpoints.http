@@ -1,0 +1,16 @@
+@hostname = localhost:8000
+@apikey = 619c3576d425b227594379a7665368a4d86212239f8a0558fffe8b89da15b5b1
+
+### Say hi
+GET http://{{hostname}}/hi
+Content-Type: application/json
+Authorization: ApiKey {{apikey}}
+
+
+### Create user
+POST http://{{hostname}}/users
+Content-Type: application/json
+
+{
+    "name": "Tiago teste"
+}
