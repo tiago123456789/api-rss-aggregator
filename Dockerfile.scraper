@@ -1,0 +1,23 @@
+FROM golang:1.18 as BUILDER
+
+WORKDIR /app
+
+COPY . .
+
+COPY .env .
+
+COPY go.mod go.sum .
+
+RUN CGO_ENABLED=0 GOOS=linux go build ./cmd/scraper/
+
+FROM alpine
+
+RUN apk add --no-cache ca-certificates
+
+COPY --from=BUILDER /app/scraper .
+
+COPY --from=BUILDER /app/.env .
+
+RUN chmod a+rwx ./scraper
+
+CMD ["./scraper"]

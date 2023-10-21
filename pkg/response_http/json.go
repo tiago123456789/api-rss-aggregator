@@ -12,6 +12,7 @@ type ErrorMessage struct {
 }
 
 func Return400(w http.ResponseWriter, data ErrorMessage) {
+	w.Header().Add("Content-Type", "application/json")
 	ReturnJson(w, 400, data)
 }
 

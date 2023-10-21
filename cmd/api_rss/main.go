@@ -7,9 +7,9 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
-	"github.com/tiago123456789/api-rss-aggregator/interval/api_rss/config"
-	"github.com/tiago123456789/api-rss-aggregator/interval/api_rss/controller"
-	"github.com/tiago123456789/api-rss-aggregator/interval/api_rss/middleware"
+	"github.com/tiago123456789/api-rss-aggregator/internal/api_rss/config"
+	"github.com/tiago123456789/api-rss-aggregator/internal/api_rss/controller"
+	"github.com/tiago123456789/api-rss-aggregator/internal/api_rss/middleware"
 )
 
 func main() {
@@ -25,14 +25,24 @@ func main() {
 		log.Fatal(err)
 	}
 
-	userController := controller.New(db)
-
-	r.Get("/400", userController.Return400)
+	userController := controller.NewUsercontroller(db)
+	feedController := controller.NewFeedController(db)
+	postController := controller.NewPostRepository(db)
 	r.Get("/healthz", userController.Healthz)
-	r.Get("/hi", middleware.HasAuthenticated(
-		userController.SayHi, *userController.GetRepository(),
-	))
 	r.Post("/users", userController.Create)
+	r.Post("/feeds", middleware.HasAuthenticated(
+		feedController.Create, *userController.GetRepository(),
+	))
+	r.Get("/posts", middleware.HasAuthenticated(
+		postController.GetPosts, *userController.GetRepository(),
+	))
+	r.Get("/feeds", feedController.GetFeeds)
+	r.Get("/follow-feeds/{feedId}", middleware.HasAuthenticated(
+		feedController.Follow, *userController.GetRepository(),
+	))
+	r.Get("/unfollow-feeds/{feedId}", middleware.HasAuthenticated(
+		feedController.Unfollow, *userController.GetRepository(),
+	))
 
 	log.Printf("Server is running at port 8000")
 	port := os.Getenv("PORT")

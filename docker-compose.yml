@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+
+  api:
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.api
+    env_file: .env
+    ports:
+      - 8000:8000
+    container_name: api_rss_aggregator
+    networks:
+      - api_rss_aggregator
+
+  scraper:
+    build:
+      context: .
+      dockerfile: Dockerfile.scraper
+    container_name: scraper
+    networks:
+      - api_rss_aggregator
+
+  postgres:
+    image: postgres:14
+    volumes:
+      - ./data/:/var/lib/postgresql
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: root
+    networks:
+      - api_rss_aggregator
+
+networks:
+  api_rss_aggregator:
+    driver: bridge

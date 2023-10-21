@@ -1,16 +1,41 @@
 @hostname = localhost:8000
-@apikey = 619c3576d425b227594379a7665368a4d86212239f8a0558fffe8b89da15b5b1
-
-### Say hi
-GET http://{{hostname}}/hi
-Content-Type: application/json
-Authorization: ApiKey {{apikey}}
-
+@apikey = f52d09cd20a1011cfcdd7f69ffff630a1b91699a3a376e97c885696c31f8204a
 
 ### Create user
 POST http://{{hostname}}/users
 Content-Type: application/json
 
 {
-    "name": "Tiago teste"
+    "name": "John and m"
 }
+
+### Create feed
+POST http://{{hostname}}/feeds
+Content-Type: application/json
+Authorization: ApiKey {{apikey}}
+
+{
+    "name": "Free code camp",
+    "url": "https://www.freecodecamp.org/news/rss"
+}
+
+### Return feeds
+GET http://{{hostname}}/feeds
+Content-Type: application/json
+Authorization: ApiKey {{apikey}}
+
+### Follow feed
+GET http://{{hostname}}/follow-feeds/1
+Content-Type: application/json
+Authorization: ApiKey {{apikey}}
+
+### Unfollow feed
+GET http://{{hostname}}/unfollow-feeds/12
+Content-Type: application/json
+Authorization: ApiKey {{apikey}}
+
+### Return Posts
+GET http://{{hostname}}/posts
+Content-Type: application/json
+Authorization: ApiKey {{apikey}}
+
