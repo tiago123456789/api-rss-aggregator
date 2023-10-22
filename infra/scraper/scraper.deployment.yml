@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scraper-deployment
+  labels:
+    app: scraper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scraper
+  template:
+    metadata:
+      labels:
+        app: scraper
+    spec:
+      containers:
+      - name: scraper
+        image: tiagorosadacosta123456/rss_aggregator_scraper
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: scraper-config-map
+        - secretRef:
+            name: scraper-secret
+        ports:
+        - containerPort: 8000
+

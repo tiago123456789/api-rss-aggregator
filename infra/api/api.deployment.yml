@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: tiagorosadacosta123456/rss_aggregator_api
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: api-config-map
+        - secretRef:
+            name: api-secret
+        ports:
+        - containerPort: 8000
+

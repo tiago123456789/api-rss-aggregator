@@ -1,12 +1,12 @@
-@hostname = localhost:8000
-@apikey = f52d09cd20a1011cfcdd7f69ffff630a1b91699a3a376e97c885696c31f8204a
+@hostname = rssaggregator.com
+@apikey = 971038fa1f161602b3cd5685d99618b1467c48885d6c5ea0db0eea881fdc0a65
 
 ### Create user
 POST http://{{hostname}}/users
 Content-Type: application/json
 
 {
-    "name": "John and m"
+    "name": "Teste here"
 }
 
 ### Create feed
@@ -30,7 +30,7 @@ Content-Type: application/json
 Authorization: ApiKey {{apikey}}
 
 ### Unfollow feed
-GET http://{{hostname}}/unfollow-feeds/12
+GET http://{{hostname}}/unfollow-feeds/1
 Content-Type: application/json
 Authorization: ApiKey {{apikey}}
 

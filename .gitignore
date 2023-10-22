@@ -2,3 +2,5 @@
 .env
 data/
 api-rss-aggretor
+infra/api/api.secrets.yml
+infra/scraper/scraper.secrets.yml
