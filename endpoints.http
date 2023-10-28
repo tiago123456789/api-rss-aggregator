@@ -1,6 +1,6 @@
-@protocal = http
+@protocal = https
 
-@hostname = localhost:8000
+@hostname = api.agendareasy.com.br
 
 @apikey = 
 
@@ -9,7 +9,7 @@ POST {{ protocal }}://{{hostname}}/users
 Content-Type: application/json
 
 {
-    "name": "Test user here"
+    "name": "Test user here 2"
 }
 
 ### Create feed
@@ -23,22 +23,22 @@ Authorization: ApiKey {{apikey}}
 }
 
 ### Return feeds
-GET http://{{hostname}}/feeds
+GET {{ protocal }}://{{hostname}}/feeds
 Content-Type: application/json
 Authorization: ApiKey {{apikey}}
 
 ### Follow feed
-GET http://{{hostname}}/follow-feeds/1
+GET {{ protocal }}://{{hostname}}/follow-feeds/1
 Content-Type: application/json
 Authorization: ApiKey {{apikey}}
 
 ### Unfollow feed
-GET http://{{hostname}}/unfollow-feeds/1
+GET {{ protocal }}://{{hostname}}/unfollow-feeds/1
 Content-Type: application/json
 Authorization: ApiKey {{apikey}}
 
 ### Return Posts
-GET http://{{hostname}}/posts
+GET {{ protocal }}://{{hostname}}/posts
 Content-Type: application/json
 Authorization: ApiKey {{apikey}}
 
