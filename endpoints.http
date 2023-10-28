@@ -1,11 +1,11 @@
-@protocal = 
+@protocal = http
 
-@hostname = 
+@hostname = localhost:8000
 
 @apikey = 
 
 ### Create user
-POST https://{{hostname}}/users
+POST {{ protocal }}://{{hostname}}/users
 Content-Type: application/json
 
 {
