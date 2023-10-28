@@ -15,6 +15,7 @@ func StartDB() (*sql.DB, error) {
 	dbUrl = strings.TrimSpace(dbUrl)
 	fmt.Println(dbUrl)
 	fmt.Println("@@@@@@@@@@@@@@@@@@@@@@")
+	fmt.Println("@@@@@@@@@@@@@@@@@@@@@@")
 	db, err := sql.Open("postgres", dbUrl)
 	if err != nil {
 		return nil, err
