@@ -7,7 +7,7 @@ on:
 
 jobs:
 
-  build:
+  build-api:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout master
@@ -29,3 +29,27 @@ jobs:
 
     - name: Push backend image to DigitalOcean Container Registry
       run: docker push ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:$(echo $GITHUB_SHA | head -c7)
+
+
+  build-scraper:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout master
+      uses: actions/checkout@main
+
+    - name: Create .env file build -f Dockerfile.scraper -t ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/scraper:$(echo $GITHUB_SHA | head -c7) .
+      run: echo "" >> .env
+
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+    - name: Build api container image
+      run: docker build -f Dockerfile.scraper -t ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/scraper:$(echo $GITHUB_SHA | head -c7) .
+
+    - name: Log in to DigitalOcean Container Registry with short-lived credentials
+      run: doctl registry login --expiry-seconds 1200
+
+    - name: Push backend image to DigitalOcean Container Registry
+      run: docker push ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/scraper:$(echo $GITHUB_SHA | head -c7)
