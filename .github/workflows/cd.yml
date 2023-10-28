@@ -83,18 +83,18 @@ jobs:
     - name: Push backend image to DigitalOcean Container Registry
       run: docker push ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/scraper:$(echo $GITHUB_SHA | head -c7)
 
-  # deploy-scraper:
-  #   needs: build-scraper
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout master
-  #     uses: actions/checkout@v2
+  deploy-scraper:
+    needs: build-scraper
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout master
+      uses: actions/checkout@v2
 
-  #   - name: Update image of scraper to deploy
-  #     run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/scraper:'${TAG}'|' ./infra/scraper/scraper.deployment.yml
+    - name: Update image of scraper to deploy
+      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|'${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}'/scraper:'${TAG}'|' ${{ github.workspace }}/infra/scraper/scraper.deployment.yml
 
-  #   - name: Update db url of scraper to deploy
-  #     run: sed -i 's|<DB_URL>|'${{ secrets.DB_URL }}'|' ${{ github.workspace }}/infra/scraper/scraper.secrets.yml
+    - name: Update db url of scraper to deploy
+      run: sed -i 's|<DB_URL>|'${{ secrets.DB_URL }}'|' ${{ github.workspace }}/infra/scraper/scraper.secrets.yml
 
   #    - name: Install doctl
   #     uses: digitalocean/action-doctl@v2
