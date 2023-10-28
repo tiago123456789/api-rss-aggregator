@@ -96,13 +96,13 @@ jobs:
     - name: Update db url of scraper to deploy
       run: sed -i 's|<DB_URL>|'${{ secrets.DB_URL }}'|' ${{ github.workspace }}/infra/scraper/scraper.secrets.yml
 
-  #    - name: Install doctl
-  #     uses: digitalocean/action-doctl@v2
-  #     with:
-  #       token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-  #   - name: Save DigitalOcean kubeconfig with short-lived credentials
-  #     run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.CLUSTER_NAME }}
+    - name: Save DigitalOcean kubeconfig with short-lived credentials
+      run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.CLUSTER_NAME }}
 
-  #   - name: Deploy to DigitalOcean Kubernetes
-  #     run: kubectl apply -f $GITHUB_WORKSPACE/infra/scraper/
+    - name: Deploy to DigitalOcean Kubernetes
+      run: kubectl apply -f $GITHUB_WORKSPACE/infra/scraper/
