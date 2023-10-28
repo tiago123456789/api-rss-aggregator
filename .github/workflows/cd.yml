@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Update api to deploy
-      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:'${TAG}'|' ${{ github.workspace }}/infra/api/api.deployment.yml
+      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:'${TAG}'|' ./infra/api/api.deployment.yml
 
     - name: Save DigitalOcean kubeconfig with short-lived credentials
       run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.CLUSTER_NAME }}
