@@ -41,7 +41,7 @@ jobs:
       run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|'${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}'/api:'${TAG}'|' ${{ github.workspace }}/infra/api/api.deployment.yml
 
     - name: Update db url of api to deploy
-      run: sed -i 's|<DB_URL>|'${{ secrets.DB_URL }}'|' ${{ github.workspace }}/infra/api/api.secrets.yml
+      run: sed -i 's|<DB_URL>|${{ secrets.DB_URL }}|' ${{ github.workspace }}/infra/api/api.secrets.yml
 
     - name: Update email of api to deploy
       run: sed -i 's|<EMAIL>|'${{ secrets.EMAIL }}'|' ${{ github.workspace }}/infra/api/issuer.yml
@@ -91,7 +91,7 @@ jobs:
       run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|'${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}'/scraper:'${TAG}'|' ${{ github.workspace }}/infra/scraper/scraper.deployment.yml
 
     - name: Update db url of scraper to deploy
-      run: sed -i 's|<DB_URL>|'${{ secrets.DB_URL }}'|' ${{ github.workspace }}/infra/scraper/scraper.secrets.yml
+      run: sed -i 's|<DB_URL>|${{ secrets.DB_URL }}|' ${{ github.workspace }}/infra/scraper/scraper.secrets.yml
 
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
