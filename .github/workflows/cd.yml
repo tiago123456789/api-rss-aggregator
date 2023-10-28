@@ -52,28 +52,6 @@ jobs:
     - name: Deploy to DigitalOcean Kubernetes
       run: kubectl apply -f $GITHUB_WORKSPACE/infra/api/
 
-  deploy-api:
-    needs: build-api
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout master
-      uses: actions/checkout@main
-
-    - name: Update image of api to deploy
-      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:'${TAG}'|' $GITHUB_WORKSPACE/infra/api/api.deployment.yml
-
-    - name: Update db url of api to deploy
-      run: sed -i 's|<DB_URL>|'${{ secrets.DB_URL }}'|' $GITHUB_WORKSPACE/infra/api/api.secrets.yml
-
-    - name: Update email of api to deploy
-      run: sed -i 's|<EMAIL>|'${{ secrets.EMAIL }}'|' $GITHUB_WORKSPACE/infra/api/issuer.yml
-
-    - name: Save DigitalOcean kubeconfig with short-lived credentials
-      run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.CLUSTER_NAME }}
-
-    - name: Deploy to DigitalOcean Kubernetes
-      run: kubectl apply -f $GITHUB_WORKSPACE/infra/api/
-
   build-scraper:
     runs-on: ubuntu-latest
     steps:
