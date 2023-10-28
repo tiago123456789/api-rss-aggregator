@@ -37,9 +37,6 @@ jobs:
     - name: Checkout master
       uses: actions/checkout@v2
 
-    - name: list files
-      run: ls -la && cd infra && ls -la && cd api && ls -la
-
     - name: Update image of api to deploy
       run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|'${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}'/api:'${TAG}'|' ${{ github.workspace }}/infra/api/api.deployment.yml
 
