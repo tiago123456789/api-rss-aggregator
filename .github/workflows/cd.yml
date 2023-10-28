@@ -25,6 +25,9 @@ jobs:
     needs: prepare-environment
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout master
+      uses: actions/checkout@main
+
     - name: Build api container image
       run: docker build -f Dockerfile.api -t ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:$(echo $GITHUB_SHA | head -c7) .
 
