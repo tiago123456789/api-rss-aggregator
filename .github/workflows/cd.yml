@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout master
-      uses: actions/checkout@main
+      uses: actions/checkout@v2
 
     - name: Create .env file build -f Dockerfile.api -t ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:$(echo $GITHUB_SHA | head -c7) .
       run: echo "" >> .env
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout master
-      uses: actions/checkout@main
+      uses: actions/checkout@v2
 
     - name: Update image of api to deploy
       run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:'${TAG}'|' ./infra/api/api.deployment.yml
@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout master
-      uses: actions/checkout@main
+      uses: actions/checkout@v2
 
     - name: Create .env file build -f Dockerfile.scraper -t ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/scraper:$(echo $GITHUB_SHA | head -c7) .
       run: echo "" >> .env
@@ -80,7 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout master
-      uses: actions/checkout@main
+      uses: actions/checkout@v2
 
     - name: Update image of api to deploy
       run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:'${TAG}'|' ./infra/api/api.deployment.yml
