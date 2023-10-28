@@ -10,16 +10,10 @@ jobs:
   prepare-environment:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout master
-      uses: actions/checkout@main
-
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
       with:
         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
-    - name: Create .env file build -f Dockerfile.api -t ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:$(echo $GITHUB_SHA | head -c7) .
-      run: echo "" >> .env
 
   build:
     needs: prepare-environment
@@ -27,6 +21,9 @@ jobs:
     steps:
     - name: Checkout master
       uses: actions/checkout@main
+
+    - name: Create .env file build -f Dockerfile.api -t ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:$(echo $GITHUB_SHA | head -c7) .
+      run: echo "" >> .env
 
     - name: Build api container image
       run: docker build -f Dockerfile.api -t ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:$(echo $GITHUB_SHA | head -c7) .
