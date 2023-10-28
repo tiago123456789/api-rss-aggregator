@@ -39,8 +39,7 @@ jobs:
 
     - name: Update api to deploy
       run: |
-      TAG=$(echo $GITHUB_SHA | head -c7) 
-      sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:'${TAG}'|' ./infra/api/api.deployment.yml 
+      TAG=$(echo $GITHUB_SHA | head -c7)  && sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:'${TAG}'|' ./infra/api/api.deployment.yml 
       sed -i 's|<DB_URL>|${{ secrets.DB_URL }}'|' ./infra/api/api.secrets.yml  
       sed -i 's|<EMAIL>|${{ secrets.EMAIL }}'|' ./infra/api/issuer.yml
     
