@@ -38,7 +38,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Get path
-      run: mv ${{ GITHUB_WORKSPACE }} ./src && cd src && ls -l
+      run: mv $GITHUB_WORKSPACE ./src && cd src && ls -l
 
     # - name: Update image of api to deploy
     #   run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:'${TAG}'|' $GITHUB_WORKSPACE/infra/api/api.deployment.yml
