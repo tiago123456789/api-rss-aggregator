@@ -38,13 +38,13 @@ jobs:
       uses: actions/checkout@main
 
     - name: Update image of api to deploy
-      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:'${TAG}'|' $GITHUB_WORKSPACE/infra/api/api.deployment.yml
+      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:'${TAG}'|' ./infra/api/api.deployment.yml
 
     - name: Update db url of api to deploy
-      run: sed -i 's|<DB_URL>|'${{ secrets.DB_URL }}'|' $GITHUB_WORKSPACE/infra/api/api.secrets.yml
+      run: sed -i 's|<DB_URL>|'${{ secrets.DB_URL }}'|' ./infra/api/api.secrets.yml
 
     - name: Update email of api to deploy
-      run: sed -i 's|<EMAIL>|'${{ secrets.EMAIL }}'|' $GITHUB_WORKSPACE/infra/api/issuer.yml
+      run: sed -i 's|<EMAIL>|'${{ secrets.EMAIL }}'|' ./infra/api/issuer.yml
 
     - name: Save DigitalOcean kubeconfig with short-lived credentials
       run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.CLUSTER_NAME }}
@@ -83,10 +83,10 @@ jobs:
       uses: actions/checkout@main
 
     - name: Update image of api to deploy
-      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:'${TAG}'|' $GITHUB_WORKSPACE/infra/api/api.deployment.yml
+      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:'${TAG}'|' ./infra/api/api.deployment.yml
 
     - name: Update db url of api to deploy
-      run: sed -i 's|<DB_URL>|'${{ secrets.DB_URL }}'|' $GITHUB_WORKSPACE/infra/api/api.secrets.yml
+      run: sed -i 's|<DB_URL>|'${{ secrets.DB_URL }}'|' ./infra/api/api.secrets.yml
 
     - name: Save DigitalOcean kubeconfig with short-lived credentials
       run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.CLUSTER_NAME }}
