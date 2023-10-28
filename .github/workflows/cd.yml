@@ -1,6 +1,6 @@
 name: "Pipeline CD"
 
-event:
+on:
   push:
     branches:
     - master
