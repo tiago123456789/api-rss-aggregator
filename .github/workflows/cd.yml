@@ -7,7 +7,7 @@ on:
 
 jobs:
 
-  build:
+  prepare-environment:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout master
@@ -21,6 +21,10 @@ jobs:
     - name: Create .env file build -f Dockerfile.api -t ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:$(echo $GITHUB_SHA | head -c7) .
       run: echo "" >> .env
 
+  build:
+    needs: prepare-environment
+    runs-on: ubuntu-latest
+    steps:
     - name: Build api container image
       run: docker build -f Dockerfile.api -t ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:$(echo $GITHUB_SHA | head -c7) .
 
