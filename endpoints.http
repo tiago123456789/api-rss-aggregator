@@ -1,12 +1,12 @@
-@hostname = rssaggregator.com
-@apikey = 971038fa1f161602b3cd5685d99618b1467c48885d6c5ea0db0eea881fdc0a65
+@hostname = 
+@apikey = 
 
 ### Create user
-POST http://{{hostname}}/users
+POST https://{{hostname}}/users
 Content-Type: application/json
 
 {
-    "name": "Teste here"
+    "name": "Test user here"
 }
 
 ### Create feed
