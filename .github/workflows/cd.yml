@@ -36,10 +36,9 @@ jobs:
     steps:
     - name: Checkout master
       uses: actions/checkout@v3
-      run: mv ${{ GITHUB_WORKSPACE }} ./src
 
     - name: Get path
-      run: cd src && ls -l
+      run: mv ${{ GITHUB_WORKSPACE }} ./src && cd src && ls -l
 
     # - name: Update image of api to deploy
     #   run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:'${TAG}'|' $GITHUB_WORKSPACE/infra/api/api.deployment.yml
