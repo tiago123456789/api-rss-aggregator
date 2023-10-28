@@ -60,44 +60,49 @@ jobs:
     - name: Deploy to DigitalOcean Kubernetes
       run: kubectl apply -f ${{ github.workspace }}/infra/api/
 
-  # build-scraper:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout master
-  #     uses: actions/checkout@v2
+  build-scraper:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout master
+      uses: actions/checkout@v2
 
-  #   - name: Create .env file build -f Dockerfile.scraper -t ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/scraper:$(echo $GITHUB_SHA | head -c7) .
-  #     run: echo "" >> .env
+    - name: Create .env file build -f Dockerfile.scraper -t ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/scraper:$(echo $GITHUB_SHA | head -c7) .
+      run: echo "" >> .env
 
-  #   - name: Install doctl
-  #     uses: digitalocean/action-doctl@v2
-  #     with:
-  #       token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-  #   - name: Build api container image
-  #     run: docker build -f Dockerfile.scraper -t ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/scraper:$(echo $GITHUB_SHA | head -c7) .
+    - name: Build api container image
+      run: docker build -f Dockerfile.scraper -t ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/scraper:$(echo $GITHUB_SHA | head -c7) .
 
-  #   - name: Log in to DigitalOcean Container Registry with short-lived credentials
-  #     run: doctl registry login --expiry-seconds 1200
+    - name: Log in to DigitalOcean Container Registry with short-lived credentials
+      run: doctl registry login --expiry-seconds 1200
 
-  #   - name: Push backend image to DigitalOcean Container Registry
-  #     run: docker push ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/scraper:$(echo $GITHUB_SHA | head -c7)
+    - name: Push backend image to DigitalOcean Container Registry
+      run: docker push ${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/scraper:$(echo $GITHUB_SHA | head -c7)
 
-  # deploy-scraper:
-  #   needs: build-scraper  
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout master
-  #     uses: actions/checkout@v2
+  deploy-scraper:
+    needs: build-scraper
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout master
+      uses: actions/checkout@v2
 
-  #   - name: Update image of api to deploy
-  #     run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:'${TAG}'|' ./infra/api/api.deployment.yml
+    - name: Update image of api to deploy
+      run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|${{ secrets.DIGITALOCEAN_DOCKER_REGISTRY }}/api:'${TAG}'|' ./infra/api/api.deployment.yml
 
-  #   - name: Update db url of api to deploy
-  #     run: sed -i 's|<DB_URL>|'${{ secrets.DB_URL }}'|' ${{ github.workspace }}/infra/api/api.secrets.yml
+    - name: Update db url of api to deploy
+      run: sed -i 's|<DB_URL>|'${{ secrets.DB_URL }}'|' ${{ github.workspace }}/infra/api/api.secrets.yml
 
-  #   - name: Save DigitalOcean kubeconfig with short-lived credentials
-  #     run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.CLUSTER_NAME }}
+     - name: Install doctl
+      uses: digitalocean/action-doctl@v2
+      with:
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-  #   - name: Deploy to DigitalOcean Kubernetes
-  #     run: kubectl apply -f $GITHUB_WORKSPACE/infra/api/
+    - name: Save DigitalOcean kubeconfig with short-lived credentials
+      run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ${{ secrets.CLUSTER_NAME }}
+
+    - name: Deploy to DigitalOcean Kubernetes
+      run: kubectl apply -f $GITHUB_WORKSPACE/infra/api/
