@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: tiagorosadacosta123456/rss_aggregator_api
+        image: registry.digitalocean.com/rss-aggregator/api
         imagePullPolicy: Always
         envFrom:
         - configMapRef:

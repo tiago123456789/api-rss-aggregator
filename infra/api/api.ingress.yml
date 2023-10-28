@@ -3,10 +3,17 @@ kind: Ingress
 metadata:
   name: api-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+
 spec:
+  tls:
+  - hosts:
+    - api.agendareasy.com.br
+    secretName: letsencrypt-prod
   rules:
-  - host: rssaggregator.com
+  - host: api.agendareasy.com.br
     http:
       paths:
       - path: /?(.*)

@@ -1,0 +1,17 @@
+name: "Pipeline CD"
+
+event:
+  push:
+    branches:
+    - master
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout master
+      uses: actions/checkout@main
+
+    - name: Say hello world
+      run: echo 'Hello world my friend'

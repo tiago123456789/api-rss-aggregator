@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: scraper
-        image: tiagorosadacosta123456/rss_aggregator_scraper
+        image: registry.digitalocean.com/rss-aggregator/scraper
         imagePullPolicy: Always
         envFrom:
         - configMapRef:
